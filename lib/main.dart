@@ -3,12 +3,13 @@
 import 'package:exampleofmyproject/screen2.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import 'Provider/post_model_provider.dart';
 import 'Provider/singlepost_provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    const MyApp(),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -17,12 +18,14 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: ChangeNotifierProvider<PostProvider>(
+    return MultiProvider(providers: [
+      ChangeNotifierProvider<PostProvider>(
         create: (context) => PostProvider(),
-        child: MyHomePage(),
       ),
-    );
+      ChangeNotifierProvider<SinglePostProvider>(
+        create: (context) => SinglePostProvider(),
+      ),
+    ], child: MaterialApp(home: MyHomePage()));
   }
 }
 
@@ -43,7 +46,6 @@ class MyHomePage extends StatelessWidget {
               itemCount: value.postLists.length,
               itemBuilder: (context, index) {
                 final data = value.postLists[index];
-
                 return Card(
                   color: const Color(0xFFFBFBFB),
                   elevation: value.selectedIndex == index ? 0 : 0,
@@ -57,7 +59,7 @@ class MyHomePage extends StatelessWidget {
                             Icons.circle_outlined,
                           ),
                     title: Text(
-                      data.title ?? 'No data',
+                      data.id.toString(),
                       style: TextStyle(
                         color: value.selectedIndex == index
                             ? Colors.blue
@@ -68,7 +70,8 @@ class MyHomePage extends StatelessWidget {
                       ),
                     ),
                     onTap: () {
-                      value.onChangedState(index);
+                      value.onChangedState(index, data.id!);
+
                       debugPrint(
                         data.id.toString(),
                       );
@@ -93,7 +96,7 @@ class MyHomePage extends StatelessWidget {
                       ),
                     ),
                     onPressed: () {
-                      Navigator.pushReplacement(
+                      Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: ((context) =>

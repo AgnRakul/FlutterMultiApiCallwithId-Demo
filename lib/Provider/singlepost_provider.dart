@@ -26,15 +26,13 @@ class SinglePostProvider extends ChangeNotifier {
     return _body;
   }
 
-  void getPostList() {
-    APISERVICE().getPostById(id: _id.toString()).then(
+  void getPostList(int postid) {
+    APISERVICE().getPostById(id: postid.toString()).then(
       (value) {
         _userId = value.userId;
         _id = value.id;
-
         _title = value.title.toString();
         _body = value.body.toString();
-
         notifyListeners();
         return PostModel();
       },

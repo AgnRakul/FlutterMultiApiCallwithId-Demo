@@ -18,7 +18,8 @@ class APISERVICE {
     }
   }
 
-  Future<PostModel> getPostById({required String id}) async {
+  Future<PostModel> getPostById({String? id}) async {
+    print("getPostById" + id!);
     final response = await http.get(
       Uri.parse("https://jsonplaceholder.typicode.com/posts/$id"),
     );
