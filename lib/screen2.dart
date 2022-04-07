@@ -1,19 +1,19 @@
+import 'package:exampleofmyproject/Model/post_model.dart';
+import 'package:exampleofmyproject/Service/api_service.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import 'Provider/singlepost_provider.dart';
 import 'main.dart';
 
 class ScreenTwo extends StatelessWidget {
-  const ScreenTwo({Key? key}) : super(key: key);
+
+  const ScreenTwo({Key? key, required this.id}) : super(key: key);
+
+  final int id;
 
   @override
   Widget build(BuildContext context) {
-    final singlePostProvider = Provider.of<SinglePostProvider>(context, listen: false);
-    singlePostProvider.getPostList();
     return Scaffold(
       appBar: AppBar(
-        title: Text(singlePostProvider.getTitle),
+        // title: Text(singlePostProvider.getTitle),
         actions: [
           IconButton(
             onPressed: () {
@@ -27,6 +27,20 @@ class ScreenTwo extends StatelessWidget {
             icon: const Icon(Icons.arrow_back_ios),
           )
         ],
+      ),
+      body: Center(
+        child: FutureBuilder<PostModel>(
+          future: APISERVICE().getPostById(id: id.toString()),
+          builder: (context, snapshot) {
+            if (snapshot.hasData){
+              return Text("post data : ${snapshot.data!.toJson()}");
+            }else if (snapshot.hasError){
+              return const Text("Some error occurred");
+            }else {
+              return const CircularProgressIndicator();
+            }
+          }
+        ),
       ),
     );
   }
