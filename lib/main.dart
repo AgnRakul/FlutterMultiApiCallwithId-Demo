@@ -93,16 +93,12 @@ class MyHomePage extends StatelessWidget {
                       ),
                     ),
                     onPressed: () {
+                      final int selectedIndex =
+                          context.read<PostProvider>().selectedIndex;
                       Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: ((context) =>
-                              ChangeNotifierProvider<SinglePostProvider>(
-                                create: (context) => SinglePostProvider(),
-                                child: const ScreenTwo(),
-                              )),
-                        ),
-                      );
+                          context,
+                          MaterialPageRoute(
+                              builder: ((_) => ScreenTwo(id: selectedIndex))));
                     },
                     child: const Text(
                       "Continue",

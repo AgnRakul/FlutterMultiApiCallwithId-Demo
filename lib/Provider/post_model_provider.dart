@@ -5,15 +5,14 @@ import 'package:flutter/material.dart';
 class PostProvider extends ChangeNotifier {
   PostModel post = PostModel();
 
-
   bool isVisible = false;
-    int selectedIndex = -1;
+  int selectedIndex = -1;
 
-    void onChangedState(int index){
-      isVisible = true;
-      selectedIndex = index;
-      notifyListeners();
-    }
+  void onChangedState(int index) {
+    isVisible = true;
+    selectedIndex = index;
+    notifyListeners();
+  }
 
   List<PostModel> postLists = [];
 

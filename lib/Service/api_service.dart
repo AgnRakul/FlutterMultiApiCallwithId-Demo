@@ -11,7 +11,6 @@ class APISERVICE {
     if (response.statusCode == 200) {
       final result = json.decode(response.body);
       final List data = result;
-
       return data.map((e) => PostModel.fromJson(e)).toList();
     } else {
       throw Exception("Failed to Fetch Stores");
